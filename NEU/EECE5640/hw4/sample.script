@@ -1,0 +1,13 @@
+#!/bin/bash
+#SBATCH --nodes=4
+#SBATCH --ntasks-per-node=2
+#SBATCH --cpus-per-task=1
+#SBATCH --time=00:30:00
+#SBATCH --job-name=DavesJob
+#SBATCH --mem=100G
+#SBATCH --partition=express
+$SRUN mpirun -mca btl_base_warn_component_unused 0 ~/MPI/Hello-mpi
+
+sbatch sample.script
+
+more slurm.out
