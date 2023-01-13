@@ -1,0 +1,20 @@
+// Exercise 1: create a file vehicle-interface.h
+
+// Exercise 2: add the #include guards
+
+// Exercise 2: open the namespace Vehicle, and move the PassengerList alias declaration in this header file
+
+// Exercise 3: inside the namespace Vehicle, declare the class VehicleInterface. It is an abstract class that represent the interface for a generic vehicle. Besides the destructor (pay attention to how a destructor for a base class should be declared!), add the following methods (as pure virtual functions):
+// int getNumberOfPassengers() const
+// int getMaxNumberOfPassengers() const
+// PassengerList getPassengerNames()
+// createPassenger(const std::string& pass_name, const std::string& pass_surname, bool drive_flag)
+// void print(std::ostream& out) const
+
+// Exercise 4: modify the Car declaration so that it publicly inherits from VehicleInterface. Add the override flag to the member functions that need it. Implement the void print(std::ostream& out) method for the Car class.
+
+// Exercise 5: override the operator << for VehicleInterface, so that it calls the void print(std::ostream& out) const method
+
+// Exercise 6: test that everything is working properly by declaring a VehicleInterface* ptr_to_car {&car_1} in lab_4_example.cpp, and then by printing it to the terminal using <<.
+
+// Exercise 7: if you have time, implement a Truck class that inherits from VehicleInterface. You can do that in car.h and car.cpp, or add a new source and header (in this case, they should be added to the Makefile.am). Then declare a construct a Truck truck_1 in lab_4_example.cpp, declare a VehicleInterface ptr_to_truck {&truck_1} and compare the result of calling << on ptr_to_truck and ptr_to_car
