@@ -1,0 +1,19 @@
+// Exercise 1: declare and implement a class UdpWrapper, which is a public subclass of SocketWrapper. You can take inspiration from TcpWrapper and adapt it to UDP operations, or start from scratch. In any case, the UdpWrapper class should:
+- have the following as private members
+  int m_port; /**< listen socket port number */
+  struct sockaddr_in m_last_recv_ip; /**< IP of the last host that sent data */
+  bool m_exit; /**< true if runServer should end */
+  int m_sock_fd; /**< socket file descriptor */
+- have a constructor that properly initializes these variables, creating an UDP socket, whose file descriptor is saved in m_sock_fd. The socket should be bound to m_port for all the interfaces in the machine where the program executes. The SO_REUSEADDR option should be set. The constructor should manage the errors that may happen when creating the socket and binding. These tasks can be done in a single member function (the constructor), or by calling other member functions. The constructor accepts a port number as input argument.
+- have a destructor that properly closes m_sock_fd and sets m_exit to true
+- override the methods of the SocketWrapper interface:
+----- the recvData method uses the recvfrom API to receive data and to save in the m_last_recv_ip private variable the IP address and port of the client that sent the packet. The recvData method checks if the recvfrom operation executed properly, and returns that number of received bytes, otherwise it closes the socket and returns a negative value.
+----- the sendData method uses the sendto API to send data to the client specified in the m_last_recv_ip private variable (i.e., the client from which the last packet was received). The sendData method checks if the sendto operation executed properly, and returns that number of sent bytes, otherwise it closes the socket and returns a negative value.
+----- the runServer method creates a char buffer of size C_MTU, and then executes a while loop that terminates when m_exit is true. Inside the while loop, it calls recvData, waiting to receive a packet. If the received data size is larger than 0, it creates a packet that carries the string "Packet ACK\n", and sends it using the sendData method. After each operation, it checks if the method executed properly or returned errors, and, in this case, it sets m_exit to true and breaks the loop. The buffer is reset with a memset operation at each iteration of the loop.
+----- the print method prints some information on the UdpWrapper object
+- have a method getLastIp() const that returns a string with the IP of the last client from which data was received (this method can be used, for example, by the print method).
+
+Tips: compile as soon as you can, as frequently as possible. In the header, remember to use the include guards. If you use a .cpp file, add it to the Makefile.am, for all the relevant binaries. Bonus point if the methods have some /** */ documentation.
+You can uncomment the code in udp-wrapper-test.cpp to test this class while you are developing (i.e., even without doing the next exercise).
+
+// Exercises 2-6: follow the instructions in homework-5.cpp to create a multi-threaded server that uses a TCP and a UDP socket.
